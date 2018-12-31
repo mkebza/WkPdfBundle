@@ -29,11 +29,24 @@ class PDFDocument
         $this->content = $content;
     }
 
+    /**
+     * Gets raw content.
+     *
+     * @return string
+     */
     public function getContent(): string
     {
         return $this->content;
     }
 
+    /**
+     * Get symfony response.
+     *
+     * @param string $filename
+     * @param string $attachment
+     *
+     * @return Response
+     */
     public function getResponse($filename = 'output.pdf', string $attachment = self::INLINE): Response
     {
         return new Response(
@@ -46,6 +59,11 @@ class PDFDocument
         );
     }
 
+    /**
+     * Writes content to file.
+     *
+     * @param string $filename
+     */
     public function write(string $filename): void
     {
         (new Filesystem())->dumpFile($filename, $this->content);

@@ -46,6 +46,12 @@ class PDFRenderer
         $this->profileNormalizer = $profileNormalizer;
     }
 
+    /**
+     * @param string $html    HTML content
+     * @param null   $profile Custom profle, can be profile name, array of options (new anonymous profile will be created), PDFRenderingProfile object or null (default profile is used)
+     *
+     * @return PDFDocument
+     */
     public function fromHtml(string $html, $profile = null): PDFDocument
     {
         $tmpFile = $this->tmpFileManager->create('html');
@@ -57,6 +63,14 @@ class PDFRenderer
         return $document;
     }
 
+    /**
+     * @param string $file    Filename
+     * @param null   $profile Custom profle, can be profile name, array of options (new anonymous profile will be created), PDFRenderingProfile object or null (default profile is used)
+     *
+     * @throws PDFRenderException
+     *
+     * @return PDFDocument
+     */
     public function fromFile(string $file, $profile = null): PDFDocument
     {
         $profile = $this->profileNormalizer->normalize($profile);
@@ -73,7 +87,6 @@ class PDFRenderer
         $command->run();
 
         if (!$command->isSuccessful()) {
-
             throw new PDFRenderException(sprintf(
                 "Error while rendering PDF, wkhtmltopdf command \n\n%s \n\nOutput: \n\n%s",
                 $command->getCommandLine(), $command->getErrorOutput()

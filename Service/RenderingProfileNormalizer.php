@@ -17,13 +17,20 @@ class RenderingProfileNormalizer
     private $registry;
 
     /**
+     * @var string
+     */
+    private $defaultProfile;
+
+    /**
      * RenderingProfileNormalizer constructor.
      *
      * @param RenderingProfileRegistry $registry
+     * @param string                   $defaultProfile
      */
-    public function __construct(RenderingProfileRegistry $registry)
+    public function __construct(RenderingProfileRegistry $registry, string $defaultProfile)
     {
         $this->registry = $registry;
+        $this->defaultProfile = $defaultProfile;
     }
 
     public function normalize($profile): PDFRenderingProfile
@@ -33,7 +40,7 @@ class RenderingProfileNormalizer
         }
 
         if (null === $profile) {
-            return 'Default';
+            $profile = $this->defaultProfile;
         }
 
         if (is_string($profile)) {

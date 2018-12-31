@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace MKebza\WkPDF\DependencyInjection;
 
+use MKebza\WkPDF\Service\RenderingProfileNormalizer;
 use MKebza\WkPDF\Service\RenderingProfileRegistry;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -35,7 +36,11 @@ class MKebzaWkPdfExtension extends Extension
         $config = $this->processConfiguration(new Configuration(), $configs);
 
         $container->setParameter('mkebza_wk_pdf.bin', $config['bin']);
-        $container->setParameter('mkebza_wk_pdf.tmp', $config['tmp'] ?? '/tmp/');
+        $container->setParameter('mkebza_wk_pdf.tmp', $config['tmp']);
+
+        $container
+            ->getDefinition(RenderingProfileNormalizer::class)
+            ->setArgument('$defaultProfile', $config['default_profile']);
 
         $this->registerProfiles($container, $config['profiles']);
     }

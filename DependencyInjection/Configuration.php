@@ -24,7 +24,8 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->scalarNode('bin')->defaultValue('/usr/local/bin/wkhtmltopdf')->end()
-                ->scalarNode('tmp')->defaultNull()->end()
+                ->scalarNode('tmp')->defaultValue('/tmp/')->end()
+                ->scalarNode('default_profile')->defaultValue('a4')->end()
                 ->arrayNode('profiles')
                     ->useAttributeAsKey('name')
                     ->arrayPrototype()
