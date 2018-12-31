@@ -1,0 +1,17 @@
+services:
+    _defaults:
+        bind:
+            $bin: '%mkebza_wk_pdf.bin%'
+            $tmp: '%mkebza_wk_pdf.tmp%'
+
+    MKebza\WkPDF\Service\TemporaryFileManager: ~
+    MKebza\WkPDF\Service\RenderingProfileRegistry: ~
+    MKebza\WkPDF\Service\RenderingProfileNormalizer:
+        arguments:
+            $registry: '@MKebza\WkPDF\Service\RenderingProfileRegistry'
+
+
+    MKebza\WkPDF\Service\PDFRenderer:
+        arguments:
+            $tmpFileManager: '@MKebza\WkPDF\Service\TemporaryFileManager'
+            $profileNormalizer: '@MKebza\WkPDF\Service\RenderingProfileNormalizer'
