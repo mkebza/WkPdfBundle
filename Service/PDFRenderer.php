@@ -76,7 +76,7 @@ class PDFRenderer
         $profile = $this->profileNormalizer->normalize($profile);
         $generated = $this->tmpFileManager->create('pdf');
 
-        $command = new Process(
+        $command = Process::fromShellCommandline(
             sprintf('%s %s %s %s',
                 $this->bin,
                 implode(' ', $profile->getOptions()),
